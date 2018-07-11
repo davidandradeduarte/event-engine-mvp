@@ -16,6 +16,7 @@ namespace MT_Processor
         public async Task Consume(ConsumeContext<CreatedFoo> context)
         {
             count++;
+
             await Console.Out.WriteLineAsync($"Processing: {context.Message}");
 
             ErrorMode();
@@ -24,51 +25,61 @@ namespace MT_Processor
 
         public void ToggleErrorSimulation()
         {
+            Console.WriteLine("");
             if (simulateError)
             {
                 simulateError = false;
-                Console.WriteLine("");
                 Console.WriteLine("Error simulation disabled");
                 return;
             }
             simulateError = true;
-            Console.WriteLine("");
             Console.WriteLine("Error simulation enabled. Will throw on next message!");
         }
 
         public void ToggleSleepMode()
         {
+            Console.WriteLine("");
             if (sleepMode)
             {
                 sleepMode = false;
-                Console.WriteLine("");
                 Console.WriteLine("Sleep Mode disabled");
                 return;
             }
             sleepMode = true;
-            Console.WriteLine("");
             Console.WriteLine("Sleep Mode enabled");
         }
 
         private void ErrorMode()
         {
-            if (simulateError)
+            if (!simulateError)
             {
-                simulateError = false;
-                Console.WriteLine("throwing...");
-                throw new InvalidOperationException($"something when wrong on message {count}");
+                return;
             }
+
+            simulateError = false;
+
+            if (DateTime.UtcNow.Second % 2 == 0)
+            {
+                Console.WriteLine("      Throwing... should retry");
+                Console.WriteLine("");
+                throw new InvalidOperationException($"error on message {count} -- should retry");
+            }
+            Console.WriteLine("      Throwing... dont retry");
+            Console.WriteLine("");
+            throw new ArgumentException($"error on message {count} -- dont retry");
         }
 
         private void SleepMode()
         {
-            if (sleepMode)
+            if (!sleepMode)
             {
-                Console.WriteLine("");
-                Console.WriteLine($"thread {Thread.CurrentThread.ManagedThreadId}: Sleep 5s...");
-                Thread.Sleep(SleepingMs);
-                Console.WriteLine($"thread {Thread.CurrentThread.ManagedThreadId}: Done!");
+                return;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine($"thread {Thread.CurrentThread.ManagedThreadId}: Sleep 5s...");
+            Thread.Sleep(SleepingMs);
+            Console.WriteLine($"thread {Thread.CurrentThread.ManagedThreadId}: Done!");
         }
     }
 }
