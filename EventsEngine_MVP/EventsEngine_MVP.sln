@@ -7,11 +7,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventGenerator", "EventGene
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventProcessor", "EventProcessor\EventProcessor.csproj", "{BADE587F-DC5D-4D26-8F4F-68BE2B9012F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT-Generator", "MT-Generator\MT-Generator.csproj", "{9087E171-B0BA-4726-9C02-D85856EB7D22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MT-Generator", "MT-Generator\MT-Generator.csproj", "{9087E171-B0BA-4726-9C02-D85856EB7D22}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "MT-Common", "MT-Common\MT-Common.shproj", "{C930DFCB-63BC-4E8D-8994-66BA27E136F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MT-Processor", "MT-Processor\MT-Processor.csproj", "{ABCDE077-3AD7-4663-BB05-56AEA3D574DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MT-Processor", "MT-Processor\MT-Processor.csproj", "{ABCDE077-3AD7-4663-BB05-56AEA3D574DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5883DD0C-AC32-4697-A028-84286D975D7C}"
+	ProjectSection(SolutionItems) = preProject
+		create-perf-counters.ps1 = create-perf-counters.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution

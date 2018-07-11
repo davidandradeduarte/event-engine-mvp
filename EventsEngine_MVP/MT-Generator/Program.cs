@@ -6,8 +6,11 @@ using MT_Common;
 
 namespace MT_Generator
 {
+    using System.Diagnostics;
+
     public class Program
     {
+        private static PerformanceCounter _avgSendMessageExecTime;
         static void Main(string[] args)
         {
             Console.WriteLine("Hello!");
@@ -32,12 +35,19 @@ namespace MT_Generator
 
             var sender = new Send(bus);
 
+            var sw = new Stopwatch();
             do
             {
                 var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Q) break;
 
+                sw.Start();
+
                 sender.SendMessage();
+
+                sw.Stop();
+                _avgSendMessageExecTime.RawValue = sw.ElapsedMilliseconds;
+                sw.Reset();
 
             } while (true);
 
@@ -45,6 +55,13 @@ namespace MT_Generator
             Console.ReadKey();
 
             bus.Stop();
+        }
+        private static void CreateCounters()
+        {
+            _avgSendMessageExecTime = new PerformanceCounter("Cascade Data Access COM", "SendMessage execution Time in ms", "RabbitMQ", false)
+            {
+                RawValue = 0
+            };
         }
     }
 }
