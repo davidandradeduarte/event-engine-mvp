@@ -13,6 +13,8 @@ namespace MT_Generator
         private static PerformanceCounter _avgSendMessageExecTime;
         static void Main(string[] args)
         {
+            CreateCounters();
+
             Console.WriteLine("Hello!");
             Console.WriteLine("");
             Console.WriteLine("Press any key to send a message");
