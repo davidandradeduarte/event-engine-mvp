@@ -12,6 +12,7 @@ namespace MT_Common
             public const string User = "guest";
             public const string Pass = "guest";
             public const string Queue = "test_queue";
+            public const string FaultQueue = "test_queue_fault";
         }
     }
 }
