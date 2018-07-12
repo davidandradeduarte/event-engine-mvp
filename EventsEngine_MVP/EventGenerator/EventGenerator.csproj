@@ -9,4 +9,6 @@
     <Reference Include="System.Messaging" />
   </ItemGroup>
 
+  <Import Project="..\MT-Common\MT-Common.projitems" Label="Shared" />
+
 </Project>

@@ -1,24 +1,21 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using EventGenerator;
 using MassTransit;
-using MassTransit.RabbitMqTransport;
 using MT_Common;
 
 namespace MT_Generator
 {
-    using System.Diagnostics;
-
     public class Program
     {
-        private static PerformanceCounter _avgSendMessageExecTime;
         static void Main(string[] args)
         {
-            CreateCounters();
-
             Console.WriteLine("Hello!");
             Console.WriteLine("");
             Console.WriteLine("Press any key to send a message");
             Console.WriteLine("Press 'q' anytime to quit");
+            Console.WriteLine("Press 'L' anytime to toogle a loop sending messages");
             Console.WriteLine("");
 
             var bus = Bus.Factory.CreateUsingRabbitMq(sbc =>
@@ -35,21 +32,21 @@ namespace MT_Generator
             Console.WriteLine("Connected!");
             Console.WriteLine("");
 
-            var sender = new Send(bus);
+            var pf = new PerformanceCounterAdapter(Settings.PerfCounters.InstanceName.Rabbit);
 
-            var sw = new Stopwatch();
+            var sender = new Send(bus, pf);
+
             do
             {
                 var key = Console.ReadKey(true);
                 if (key.Key == ConsoleKey.Q) break;
-
-                sw.Start();
+                if (key.Key == ConsoleKey.L)
+                {
+                    Loop(sender);
+                    continue;
+                }
 
                 sender.SendMessage();
-
-                sw.Stop();
-                _avgSendMessageExecTime.RawValue = sw.ElapsedMilliseconds;
-                sw.Reset();
 
             } while (true);
 
@@ -58,12 +55,25 @@ namespace MT_Generator
 
             bus.Stop();
         }
-        private static void CreateCounters()
+
+        private static void Loop(Send sender)
         {
-            _avgSendMessageExecTime = new PerformanceCounter("Cascade Data Access COM", "SendMessage execution Time in ms", "RabbitMQ", false)
+            var thread = new Thread(() =>
             {
-                RawValue = 0
-            };
+                while (true) sender.SendMessage();
+            });
+
+            thread.Start();
+
+            do
+            {
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.L)
+                {
+                    thread.Abort();
+                    break;
+                }
+            } while (true);
         }
     }
 }

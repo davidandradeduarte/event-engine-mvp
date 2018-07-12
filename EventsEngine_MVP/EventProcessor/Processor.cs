@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Messaging;
 using System.Threading;
+using MT_Common;
 
 namespace EventProcessor
 {
@@ -13,7 +14,7 @@ namespace EventProcessor
 
         public void Process()
         {
-            using (var messageQueue = new MessageQueue(Constants.Queue.Path, QueueAccessMode.Receive))
+            using (var messageQueue = new MessageQueue(Settings.Msmq.Path, QueueAccessMode.Receive))
             {
                 messageQueue.Formatter = new XmlMessageFormatter(new[] { typeof(string) });
 

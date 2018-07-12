@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Messaging;
 using System.Threading.Tasks;
+using MT_Common;
 
 namespace EventProcessor
 {
@@ -12,9 +13,9 @@ namespace EventProcessor
         {
             Console.WriteLine("Consumer here!");
 
-            if (!MessageQueue.Exists(Constants.Queue.Path))
+            if (!MessageQueue.Exists(Settings.Msmq.Path))
             {
-                Console.WriteLine($"No queue found on path: '{Constants.Queue.Path}'");
+                Console.WriteLine($"No queue found on path: '{Settings.Msmq.Path}'");
                 Console.WriteLine("Aborting execution.");
                 return;
             }

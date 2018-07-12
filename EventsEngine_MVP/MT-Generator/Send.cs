@@ -8,10 +8,12 @@ namespace EventGenerator
     {
         private int count;
         private readonly IBusControl bus;
+        private readonly IPerfCounters counter;
 
-        public Send(IBusControl bus)
+        public Send(IBusControl bus, IPerfCounters counter)
         {
             this.bus = bus;
+            this.counter = counter;
         }
 
         public void SendMessage()
@@ -27,7 +29,13 @@ namespace EventGenerator
 
             Console.WriteLine("");
             Console.WriteLine($"Sending Message: '{foo}'");
-            bus.Publish(foo);
+
+            counter.Start();
+
+            // run sync so that we can measure the actual time
+            bus.Publish(foo).GetAwaiter().GetResult();
+
+            counter.Stop();
         }
     }
 }
