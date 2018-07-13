@@ -17,7 +17,13 @@ namespace EventGenerator
         public void SendMessage()
         {
             count++;
-            string message = $"This is a test message -- {count}";
+
+            var message = new Payload
+            {
+                Foo = count,
+                Bar = $"This is a test message using MSMQ -- { count }",
+                Timez = DateTime.UtcNow
+            };
 
             if (!MessageQueue.Exists(Settings.Msmq.Path))
             {

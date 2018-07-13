@@ -20,7 +20,7 @@ namespace EventGenerator
         {
             count++;
 
-            var foo = new CreatedFoo
+            var foo = new Payload
             {
                 Foo = count,
                 Bar = "this is a brand new bar-siness",
@@ -34,6 +34,7 @@ namespace EventGenerator
 
             // run sync so that we can measure the actual time
             bus.Publish(foo).GetAwaiter().GetResult();
+            //bus.Publish(foo);
 
             counter.Stop();
         }

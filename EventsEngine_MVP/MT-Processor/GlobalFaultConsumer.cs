@@ -6,9 +6,9 @@ using MT_Common;
 
 namespace MT_Processor
 {
-    public class GlobalFaultConsumer : IConsumer<Fault<CreatedFoo>>
+    public class GlobalFaultConsumer : IConsumer<Fault<Payload>>
     {
-        public async Task Consume(ConsumeContext<Fault<CreatedFoo>> context)
+        public async Task Consume(ConsumeContext<Fault<Payload>> context)
         {
             var payload = context.Message;
 

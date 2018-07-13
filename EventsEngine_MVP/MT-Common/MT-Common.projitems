@@ -9,7 +9,7 @@
     <Import_RootNamespace>MT_Common</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)CreatedFoo.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Payload.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IPerfCounters.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PerformanceCounterAdapter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Settings.cs" />

@@ -16,7 +16,7 @@ namespace EventProcessor
         {
             using (var messageQueue = new MessageQueue(Settings.Msmq.Path, QueueAccessMode.Receive))
             {
-                messageQueue.Formatter = new XmlMessageFormatter(new[] { typeof(string) });
+                messageQueue.Formatter = new XmlMessageFormatter(new[] { typeof(Payload) });
 
                 Console.WriteLine("");
                 Console.WriteLine("Waiting for messages...");

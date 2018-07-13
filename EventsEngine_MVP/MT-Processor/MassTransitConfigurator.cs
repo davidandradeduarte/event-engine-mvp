@@ -9,7 +9,7 @@ namespace MT_Processor
     public class MassTransitConfigurator : IDisposable
     {
         private readonly IBusControl bus;
-        private readonly CreatedFooConsumer consumer = new CreatedFooConsumer();
+        private readonly PayloadConsumer consumer = new PayloadConsumer();
 
         public MassTransitConfigurator()
         {
@@ -23,14 +23,14 @@ namespace MT_Processor
 
                 sbc.ReceiveEndpoint(host, Settings.Rabbit.Queue, e =>
                 {
-                    // ep.Handler<CreatedFooConsumer>(context => Console.Out.WriteLineAsync($" yololo Received: {context.Message}"));
+                    // ep.Handler<CreatedFooConsumer>(context => Console.Out.WriteLineAsync($"Received: {context.Message}"));
 
                     // we register an instance so that we can send "sleep" "error" calls
                     // normaly, we would leave the consumer class instance management to the MassTransit framework
-                    //ep.Consumer<CreatedFooConsumer>();
+                    //ep.Consumer<PayloadConsumer>();
                     e.Instance(consumer);
 
-                    e.UseRateLimit(10, TimeSpan.FromSeconds(5));
+                    //e.UseRateLimit(10, TimeSpan.FromSeconds(5));
 
                 });
 
@@ -45,7 +45,7 @@ namespace MT_Processor
         {
             bus.Start();
             Console.WriteLine("");
-            Console.WriteLine($"Listening for {nameof(CreatedFoo)} Events...");
+            Console.WriteLine($"Listening for {nameof(Payload)} Events...");
             Console.WriteLine("");
         }
 

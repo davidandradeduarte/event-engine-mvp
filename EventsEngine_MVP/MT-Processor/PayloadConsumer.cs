@@ -6,14 +6,14 @@ using MT_Common;
 
 namespace MT_Processor
 {
-    public class CreatedFooConsumer : IConsumer<CreatedFoo>
+    public class PayloadConsumer : IConsumer<Payload>
     {
         private const int SleepingMs = 5000;
         private int count;
         private bool simulateError;
         private bool sleepMode;
 
-        public async Task Consume(ConsumeContext<CreatedFoo> context)
+        public async Task Consume(ConsumeContext<Payload> context)
         {
             count++;
 
